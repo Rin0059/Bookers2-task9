@@ -5,7 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :books, dependent: :destroy
+  has_many :book_comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   attachment :profile_image, destroy: false
+  
 
   validates :name, length: {maximum: 20, minimum: 2}, uniqueness: true
   validates :introduction, length: { maximum: 50 }
