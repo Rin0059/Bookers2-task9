@@ -37,6 +37,23 @@
             <td><%= link_to "#{@book.book_comments.count} コメント", book_path(@book.id) %></td>
             
             <% if current_user == @user %>
+            
+            <!--星評価-->
+            <td>
+              <div id="star-rate-<%= @book.id %>"></div>
+              <script>
+              $('#star-rate-<%= @book.id %>').raty({
+                size: 36,
+                starOff:  '<%= asset_path('star-off.png') %>',
+                starOn : '<%= asset_path('star-on.png') %>',
+                readOnly: true,
+                half: false,
+                score: <%= @book.star %>,
+              });
+              </script>
+            </td>
+            <!--星評価-->
+            
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
             <td><%= link_to 'Destroy', book_path(@book), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@user.id}" %></td>
             <% end %>
