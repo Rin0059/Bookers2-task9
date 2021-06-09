@@ -9,6 +9,8 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
+    @books = Book.all.order(created_at: :desc)
+    @books = Book.all.order(star: :desc)
     @book = Book.new
     @user = current_user
     @book_comment = BookComment.new
@@ -55,7 +57,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star)
+    params.require(:book).permit(:title, :body, :star, :sort)
   end
 
 end
