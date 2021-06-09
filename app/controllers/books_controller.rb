@@ -8,9 +8,7 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.all
-    @books = Book.all.order(created_at: :desc)
-    @books = Book.all.order(star: :desc)
+    @books = Book.all.order(params[:sort])
     @book = Book.new
     @user = current_user
     @book_comment = BookComment.new
