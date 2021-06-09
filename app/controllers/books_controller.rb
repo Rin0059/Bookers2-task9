@@ -12,6 +12,17 @@ class BooksController < ApplicationController
     @book = Book.new
     @user = current_user
     @book_comment = BookComment.new
+
+    if params[:category_id]
+      # Categoryのデータベースのテーブルから一致するidを取得
+      @category = Category.find(params[:category_id])
+
+      # category_idと紐づく投稿を取得
+      @books = @category.books.order(created_at: :desc).all
+    else
+      # 投稿すべてを取得
+      @books = Book.order(created_at: :desc).all
+    end
   end
 
   def create
@@ -55,7 +66,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star, :sort)
+    params.require(:book).permit(:title, :body, :star, :sort, :category_ids)
   end
 
 end
