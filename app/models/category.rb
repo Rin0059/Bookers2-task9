@@ -1,4 +1,4 @@
 class Category < ApplicationRecord
-  has_many :category
-  belongs_to :book
+  has_many :category, dependent: :destroy
+  has_many :books
 end

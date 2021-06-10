@@ -18,6 +18,11 @@
           <li><%= link_to ' sign up', new_user_registration_path,class: 'fas fa-user-plus nav-link text-light' %></li>
           <li><%= link_to ' login', new_user_session_path ,class: 'fas fa-sign-in-alt nav-link text-light'%></li>
         <% end %>
+
+        <%= form_tag(search_field,:method => 'get') do %>
+          <%= text_field_tag :search, params[:search] %>
+          <%= submit_tag 'Search', :name => nil %>
+        <% end %>
         </ul>
       </div>
     </div>

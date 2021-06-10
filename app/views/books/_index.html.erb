@@ -19,9 +19,7 @@
         <td><%= book.body %></td>
 
         <td>
-          <% @book.categories.each do |category| %>
-           <%= link_to category.title, book_path(book) %>
-          <% end %>
+          <%= link_to book.category_id %>
         </td>
 
         <td class="favorite-btn-<%= book.id %>">
