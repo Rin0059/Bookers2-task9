@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   def show
     @book = Book.find(params[:id])
@@ -12,17 +14,6 @@ class BooksController < ApplicationController
     @book = Book.new
     @user = current_user
     @book_comment = BookComment.new
-
-    if params[:category_id]
-      # Categoryのデータベースのテーブルから一致するidを取得
-      @category = Category.find(params[:category_id])
-
-      # category_idと紐づく投稿を取得
-      @books = @category.books.order(created_at: :desc).all
-    else
-      # 投稿すべてを取得
-      @books = Book.order(created_at: :desc).all
-    end
   end
 
   def create
@@ -63,14 +54,17 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
-  def search
-    @category = Category.search(params[:search])
-  end
-
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star, :sort, :category_id)
+    params.require(:book).permit(:title, :body, :star, :sort, :category)
+  end
+
+  def ensure_correct_user
+    @book = Book.find(params[:id])
+    unless @book.user_id == current_user_id
+      redirect_to books_path
+    end
   end
 
 end
